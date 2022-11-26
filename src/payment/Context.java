@@ -1,3 +1,5 @@
+package payment;
+
 public class Context {
     PaymentMethod strategy;
 

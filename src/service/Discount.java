@@ -1,4 +1,6 @@
-public class Discount implements Service{
+package service;
+
+public abstract class Discount implements Service {
 
     Service service;
 
@@ -7,9 +9,8 @@ public class Discount implements Service{
         this.service = service;
     }
 
-
     @Override
     public void apply() {
-
+        service.apply();
     }
 }
