@@ -1,3 +1,5 @@
+import service.Service;
+
 import java.util.List;
 
 public interface UserInterface {

@@ -1,3 +1,5 @@
+import service.Discount;
+
 import java.util.List;
 
 public interface AdminInterface {
