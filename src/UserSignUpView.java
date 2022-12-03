@@ -1,3 +1,5 @@
+import ui_utils.ButtonView;
+
 public class UserSignUpView {
     private final ButtonView signUpButton = new ButtonView();
     private final ButtonView isAdminCheckbox = new ButtonView();
