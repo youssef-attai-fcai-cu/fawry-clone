@@ -12,4 +12,8 @@ public class RefundResponseController {
     {
         return refundRepository.gettAllRefundRequests();
     }
+    public void setRefundRequestStatus(int requestID, RefundStatus refundStatus)
+    {
+
+    }
 }
