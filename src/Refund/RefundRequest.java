@@ -1,20 +1,28 @@
 package Refund;
 
 public class RefundRequest {
-    private final int requestID;
-    private final int transcationID;
-    private final int userID;
-    private final float Amount;
-    private final String serviceType;
-    private final RefundStatus refundStatus;
+    public final int requestID;
+    public final int transcationID;
+
+    public void setRefundStatus(RefundStatus refundStatus) {
+        this.refundStatus = refundStatus;
+    }
+
+    private   RefundStatus refundStatus;
 
 
-    public RefundRequest(int requestID, int transcationID, int userID, float amount, String serviceType, RefundStatus refundStatus) {
+    public RefundRequest(int requestID, int transcationID, RefundStatus refundStatus) {
         this.requestID = requestID;
         this.transcationID = transcationID;
-        this.userID = userID;
-        Amount = amount;
-        this.serviceType = serviceType;
         this.refundStatus = refundStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "RefundRequest{" +
+                "requestID=" + requestID +
+                ", transcationID=" + transcationID +
+                ", refundStatus=" + refundStatus +
+                '}';
     }
 }
