@@ -46,8 +46,6 @@ public class UserPaymentController {
     {
         this.view.setPaymentMethod();
         this.view.setPaymentAmount();
-
-
         getPaymentType();
         executeStrategy(this.view.getPaymentAmount());
     }
