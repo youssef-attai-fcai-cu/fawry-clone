@@ -15,4 +15,17 @@ public class InMemoryRefundRepository implements RefundRepository {
     public List<RefundRequest> gettAllRefundRequests(){
         return refundRequests;
     }
+
+    @Override
+    public void setRefundRequestStatus(int requestID, RefundStatus refundStatus) {
+        for (RefundRequest refundRequest: refundRequests) {
+            if(refundRequest.requestID==requestID)
+            {
+                // TODO: AMOUNT RETURNED TO WALLET (USER)
+                refundRequest.setRefundStatus(refundStatus);
+                break;
+            }
+
+        }
+    }
 }
