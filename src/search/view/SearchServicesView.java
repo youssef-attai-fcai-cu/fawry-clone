@@ -1,11 +1,12 @@
 package search.view;
 
 
+import search.ServiceProvider;
 import search.controller.SearchServicesController;
 
 
 
-
+import java.util.List;
 import java.util.Scanner;
 
 public class SearchServicesView {
@@ -13,6 +14,7 @@ public class SearchServicesView {
     Scanner scanner = new Scanner(System.in);
 
     private String searchQuery;
+    private List<ServiceProvider> searchResults;
     SearchServicesController controller;
 
 
@@ -33,7 +35,7 @@ public class SearchServicesView {
     public void searchQuery()
     {
         setSearchQuery();
-        controller.handle(getSearchQuery());
+        searchResults = controller.getServices(getSearchQuery());
     }
 
 
