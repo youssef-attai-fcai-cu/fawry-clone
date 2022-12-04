@@ -21,4 +21,9 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     public List<Transaction> getTransactionsByUserID(int userID) {
         return this.transactions.stream().filter(transaction -> transaction.userID() == userID).toList();
     }
+
+    @Override
+    public int count() {
+        return this.transactions.size();
+    }
 }
