@@ -1,4 +1,6 @@
-package pay;
+package discount;
+
+import service.ServiceProvider;
 
 public class Discount implements ServiceProvider {
 
@@ -13,6 +15,11 @@ public class Discount implements ServiceProvider {
     @Override
     public boolean handleForm() {
         return service.handleForm();
+    }
+
+    @Override
+    public boolean allowsCashOnDelivery() {
+        return service.allowsCashOnDelivery();
     }
 
     @Override
