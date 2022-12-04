@@ -2,7 +2,7 @@ package payment;
 
 public class CreditCardPayment implements PaymentMethod {
     @Override
-    public void pay(int amount) {
+    public void pay(float amount) {
         System.out.println("Credit Card strat");
     }
 }
