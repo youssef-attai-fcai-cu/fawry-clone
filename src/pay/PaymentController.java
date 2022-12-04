@@ -4,19 +4,18 @@ import payment.CreditCardPayment;
 import payment.PaymentMethod;
 
 public class PaymentController {
-    private final ServiceProvider serviceProvider;
+    private ServiceProvider serviceProvider;
     private final TransactionRepository transactionRepository;
+    private final DiscountRepository discountRepository;
     private int currentUserID;
     private PaymentMethod paymentMethod = new CreditCardPayment();
 
-    public PaymentController(ServiceProvider serviceProvider, TransactionRepository transactionRepository, int currentUserID) {
+    public PaymentController(ServiceProvider serviceProvider, TransactionRepository transactionRepository,
+                             DiscountRepository discountRepository, int currentUserID) {
         this.serviceProvider = serviceProvider;
         this.transactionRepository = transactionRepository;
+        this.discountRepository = discountRepository;
         this.currentUserID = currentUserID;
-    }
-
-    public PaymentForm getPaymentForm() {
-        return serviceProvider.getPaymentForm();
     }
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
@@ -24,13 +23,20 @@ public class PaymentController {
     }
 
     public void submitPaymentForm() {
+        ServiceProvider s = serviceProvider;
+        for (DiscountRecord d : discountRepository.getOverallDiscounts()) {
+            s = new Discount(s, d.percentage());
+        }
+        for (DiscountRecord d : discountRepository.getSpecificDiscounts(serviceProvider.getServiceName())) {
+            s = new Discount(s, d.percentage());
+        }
+        this.serviceProvider = s;
         if (this.serviceProvider.handleForm()) {
-            float billAmount = serviceProvider.getServiceBillAmount();
+            float billAmount = this.serviceProvider.getServiceBillAmount();
             this.paymentMethod.pay(billAmount);
             this.transactionRepository.createNew(
                     currentUserID, billAmount, serviceProvider.getServiceName()
             );
         }
-        ;
     }
 }
