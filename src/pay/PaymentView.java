@@ -10,7 +10,6 @@ public class PaymentView {
     private final ButtonView payWalletButton = new ButtonView();
     private final ButtonView payCashOnDeliveryButton = new ButtonView();
     private final ButtonView submitButton = new ButtonView();
-    private final PaymentFormView paymentFormView = new PaymentFormView();
     private final PaymentController controller;
 
     public PaymentView(PaymentController controller) {
@@ -19,11 +18,6 @@ public class PaymentView {
         this.payWalletButton.setClickListener(() -> this.controller.setPaymentMethod(new WalletPayment()));
         this.payCashOnDeliveryButton.setClickListener(() -> this.controller.setPaymentMethod(new CashOnDeliveryPayment()));
         this.submitButton.setClickListener(this.controller::submitPaymentForm);
-        this.fillPaymentForm();
-    }
-
-    public void fillPaymentForm() {
-        this.paymentFormView.fillForm(this.controller.getPaymentForm());
     }
 
     public void clickSubmit() {
