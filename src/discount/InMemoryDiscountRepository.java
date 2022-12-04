@@ -1,4 +1,4 @@
-package pay;
+package discount;
 
 import java.util.ArrayList;
 import java.util.List;

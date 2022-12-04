@@ -1,10 +1,7 @@
-package Refund;
+package refund;
 
-import org.omg.IOP.TransactionService;
+import transactions.Transaction;
 import ui_utils.ButtonView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RefundRequestView {
     private final RefundRequestController refundRequestController;

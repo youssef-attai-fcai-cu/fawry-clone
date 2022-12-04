@@ -1,4 +1,7 @@
-package Refund;
+package refund;
+
+import transactions.Transaction;
+import transactions.TransactionRepository;
 
 import java.util.List;
 
@@ -18,6 +21,6 @@ public class RefundRequestController {
         System.out.println("refund request");
     }
     public List<Transaction> getUserTransaction(){
-        return transactionRepository.getTansactionByUserID(userID);
+        return transactionRepository.getTransactionsByUserID(userID);
     }
 }

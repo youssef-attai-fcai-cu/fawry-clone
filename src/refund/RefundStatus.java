@@ -1,4 +1,4 @@
-package Refund;
+package refund;
 
 public enum RefundStatus {
     Pending,

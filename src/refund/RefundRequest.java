@@ -1,4 +1,4 @@
-package Refund;
+package refund;
 
 public class RefundRequest {
     public final int requestID;

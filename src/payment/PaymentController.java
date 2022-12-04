@@ -1,21 +1,32 @@
-package pay;
+package payment;
 
-import payment.CreditCardPayment;
-import payment.PaymentMethod;
+import discount.Discount;
+import discount.DiscountRecord;
+import discount.DiscountRepository;
+import service.ServiceProvider;
+import transactions.TransactionRepository;
 
 public class PaymentController {
     private ServiceProvider serviceProvider;
     private final TransactionRepository transactionRepository;
     private final DiscountRepository discountRepository;
-    private int currentUserID;
+    private final int currentUserID;
     private PaymentMethod paymentMethod = new CreditCardPayment();
 
-    public PaymentController(ServiceProvider serviceProvider, TransactionRepository transactionRepository,
-                             DiscountRepository discountRepository, int currentUserID) {
+    public PaymentController(
+            ServiceProvider serviceProvider,
+            TransactionRepository transactionRepository,
+            DiscountRepository discountRepository,
+            int currentUserID
+    ) {
         this.serviceProvider = serviceProvider;
         this.transactionRepository = transactionRepository;
         this.discountRepository = discountRepository;
         this.currentUserID = currentUserID;
+    }
+
+    public ServiceProvider getServiceProvider() {
+        return this.serviceProvider;
     }
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
@@ -23,6 +34,7 @@ public class PaymentController {
     }
 
     public void submitPaymentForm() {
+//        TODO: Revise
         ServiceProvider s = serviceProvider;
         for (DiscountRecord d : discountRepository.getOverallDiscounts()) {
             s = new Discount(s, d.percentage());

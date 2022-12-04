@@ -1,6 +1,5 @@
-package Refund;
+package refund;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ public class InMemoryRefundRepository implements RefundRepository {
         for (RefundRequest refundRequest: refundRequests) {
             if(refundRequest.requestID==requestID)
             {
-                // TODO: AMOUNT RETURNED TO WALLET (USER)
                 refundRequest.setRefundStatus(refundStatus);
                 break;
             }

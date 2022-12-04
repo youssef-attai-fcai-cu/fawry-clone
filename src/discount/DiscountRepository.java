@@ -1,4 +1,4 @@
-package pay;
+package discount;
 
 import java.util.List;
 
