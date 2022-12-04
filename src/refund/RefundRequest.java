@@ -2,18 +2,20 @@ package refund;
 
 public class RefundRequest {
     public final int requestID;
-    public final int transcationID;
+    public final int transactionID;
+    public final int userID;
 
     public void setRefundStatus(RefundStatus refundStatus) {
         this.refundStatus = refundStatus;
     }
 
-    private   RefundStatus refundStatus;
+    private RefundStatus refundStatus;
 
 
-    public RefundRequest(int requestID, int transcationID, RefundStatus refundStatus) {
+    public RefundRequest(int requestID, int transactionID, int userID, RefundStatus refundStatus) {
         this.requestID = requestID;
-        this.transcationID = transcationID;
+        this.transactionID = transactionID;
+        this.userID = userID;
         this.refundStatus = refundStatus;
     }
 
@@ -21,7 +23,7 @@ public class RefundRequest {
     public String toString() {
         return "RefundRequest{" +
                 "requestID=" + requestID +
-                ", transcationID=" + transcationID +
+                ", transcationID=" + transactionID +
                 ", refundStatus=" + refundStatus +
                 '}';
     }
