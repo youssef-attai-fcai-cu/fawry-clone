@@ -1,46 +1,52 @@
+package auth;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryRepository implements UserRepository {
+public class InMemoryUserRepository implements UserRepository {
     //List for Users
     private static final List<User> users = new ArrayList<>();
 
     // Adding new users in List
     @Override
-    public void addNewUser(User newUser) {
-        users.add(newUser);
+    public void addNewUser(boolean isAdmin, String username, String email, String password) {
+        users.add(new User(isAdmin, username, email, password, users.size()));
     }
+
     @Override
     public User getUserForSignIn(String email, String password) {
         for (User user : users)
-            if (user.getEmail().equals(email)) {
-                if (user.checkpasswword(password))
+            if (user.email().equals(email)) {
+                if (user.password().equals(password))
                     return user;
                 return null;
             }
         return null;
     }
+
     @Override
     public User getUserForSignUp(String email, String password) {
         for (User user : users)
-            if (user.getEmail().equals(email)) {
-                if (user.checkpasswword(password))
+            if (user.email().equals(email)) {
+                if (user.password().equals(password))
                     return user;
                 return null;
             }
         return null;
     }
+
     @Override
     public User getUserByEmail(String email) {
         for (User user : users)
-            if (user.getEmail().equals(email))
+            if (user.email().equals(email))
                 return user;
         return null;
     }
+
     @Override
     public User getUserByUsername(String username) {
         for (User user : users)
-            if (user.getUsername().equals(username))
+            if (user.username().equals(username))
                 return user;
         return null;
 
