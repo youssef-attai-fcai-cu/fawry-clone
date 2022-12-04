@@ -8,4 +8,6 @@ public interface TransactionRepository {
     List<Transaction> getAllTransactions();
 
     List<Transaction> getTransactionsByUserID(int userID);
+
+    int count();
 }

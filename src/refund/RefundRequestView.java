@@ -1,29 +1,31 @@
 package refund;
 
 import transactions.Transaction;
-import ui_utils.ButtonView;
+
+import java.util.List;
 
 public class RefundRequestView {
     private final RefundRequestController refundRequestController;
-    private  int selectedTransactions;
-    private final ButtonView requestRefund = new ButtonView();
 
     public RefundRequestView(RefundRequestController refundRequestController) {
         this.refundRequestController = refundRequestController;
-        for (Transaction t : refundRequestController.getUserTransaction()) {
-            System.out.println(t.toString());
+    }
+
+    public void createRefundRequest(int transactionID) {
+        refundRequestController.createRefundRequest(transactionID);
+    }
+
+    public boolean listTransactions(List<Transaction> transactions) {
+        if (transactions.size() > 0) {
+            System.out.println("Select a transaction by its ID\n");
+            for (Transaction t : transactions) {
+                System.out.println(t.toString());
+            }
+            return true;
+        } else {
+            System.out.println("\nYou have not made any transactions yet\n");
+            return false;
         }
-        requestRefund.setClickListener(()->{
-            refundRequestController.createRefundRequest(selectedTransactions);
-        });
-    }
-
-    public void setSelectedTransactions(int selectedTransactions) {
-
-        this.selectedTransactions = selectedTransactions;
-    }
-    public void ClickButton(){
-        requestRefund.click();
     }
 }
 

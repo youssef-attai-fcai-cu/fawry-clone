@@ -19,6 +19,6 @@ public class PaymentView {
     }
 
     public void fillPaymentForm() {
-        this.controller.getServiceProvider();
+
     }
 }

@@ -9,7 +9,7 @@ public class RefundResponseController {
     }
     public List<RefundRequest> getAllRefundRequests()
     {
-        return refundRepository.gettAllRefundRequests();
+        return refundRepository.getAllRefundRequests();
     }
     public void setRefundRequestStatus(int requestID, RefundStatus refundStatus) {
 //        TODO: Allow admin to set the refund request status

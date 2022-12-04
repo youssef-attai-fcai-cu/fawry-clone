@@ -1,9 +1,16 @@
 package service;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ServiceProvider {
-    boolean handleForm();
+    List<PaymentFormField> getPaymentFormFields();
+
+    boolean handleForm(Map<String, String> form);
+
     boolean allowsCashOnDelivery();
-    float getServiceBillAmount();
+
     String getServiceName();
 
+    float getBillAmount(Map<String, String> form);
 }

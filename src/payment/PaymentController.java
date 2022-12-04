@@ -1,10 +1,12 @@
 package payment;
 
-import discount.Discount;
 import discount.DiscountRecord;
 import discount.DiscountRepository;
 import service.ServiceProvider;
+import transactions.Transaction;
 import transactions.TransactionRepository;
+
+import java.util.Map;
 
 public class PaymentController {
     private ServiceProvider serviceProvider;
@@ -33,8 +35,7 @@ public class PaymentController {
         this.paymentMethod = paymentMethod;
     }
 
-    public void submitPaymentForm() {
-//        TODO: Revise
+    public void submitPaymentForm(Map<String, String> form) {
         ServiceProvider s = serviceProvider;
         for (DiscountRecord d : discountRepository.getOverallDiscounts()) {
             s = new Discount(s, d.percentage());
@@ -43,12 +44,17 @@ public class PaymentController {
             s = new Discount(s, d.percentage());
         }
         this.serviceProvider = s;
-        if (this.serviceProvider.handleForm()) {
-            float billAmount = this.serviceProvider.getServiceBillAmount();
-            this.paymentMethod.pay(billAmount);
+
+        if (this.serviceProvider.handleForm(form)) {
+            this.paymentMethod.pay(serviceProvider.getBillAmount(form));
             this.transactionRepository.createNew(
-                    currentUserID, billAmount, serviceProvider.getServiceName()
+                    currentUserID, serviceProvider.getBillAmount(form), serviceProvider.getServiceName()
             );
+        }
+
+//        TODO: Remove this
+        for (Transaction t : this.transactionRepository.getAllTransactions()) {
+            System.out.println(t);
         }
     }
 }

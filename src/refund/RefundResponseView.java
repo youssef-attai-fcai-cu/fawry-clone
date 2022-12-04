@@ -5,6 +5,10 @@ public class RefundResponseView {
 
     public RefundResponseView(RefundResponseController refundResponseController) {
         this.refundResponseController = refundResponseController;
+
+    }
+
+    public void show() {
         for (RefundRequest r : refundResponseController.getAllRefundRequests()) {
             System.out.println(r.toString());
         }
