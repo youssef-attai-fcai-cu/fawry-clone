@@ -12,6 +12,11 @@ public class InMemoryDiscountRepository implements DiscountRepository {
     }
 
     @Override
+    public void addNewSpecificDiscount(int percentage, String serviceName) {
+        this.discountRecords.add(new DiscountRecord(percentage, serviceName));
+    }
+
+    @Override
     public List<DiscountRecord> getOverallDiscounts() {
         return discountRecords.stream().filter(discountRecord -> discountRecord.on().equals("<overall>")).toList();
     }
