@@ -15,12 +15,12 @@ public class RefundRequestController {
         this.transactionRepository = transactionRepository;
         this.userID = userID;
     }
-    public void createRefundRequest(int transactionID)
-    {
-        refundRepository.add(new RefundRequest(0,transactionID,RefundStatus.Pending));
-        System.out.println("refund request");
+
+    public void createRefundRequest(int transactionID) {
+        refundRepository.add(transactionID, this.userID);
     }
-    public List<Transaction> getUserTransaction(){
+
+    public List<Transaction> getAllUserTransactions() {
         return transactionRepository.getTransactionsByUserID(userID);
     }
 }
