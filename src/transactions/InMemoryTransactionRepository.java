@@ -1,4 +1,4 @@
-package pay;
+package transactions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,5 +15,10 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     @Override
     public List<Transaction> getAllTransactions() {
         return this.transactions;
+    }
+
+    @Override
+    public List<Transaction> getTransactionsByUserID(int userID) {
+        return this.transactions.stream().filter(transaction -> transaction.userID() == userID).toList();
     }
 }
