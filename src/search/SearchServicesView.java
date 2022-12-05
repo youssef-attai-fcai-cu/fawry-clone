@@ -1,31 +1,28 @@
 package search;
 
+import core.View;
 import service.ServiceProvider;
 
 import java.util.List;
-import java.util.Scanner;
 
-public class SearchServicesView {
-
-    Scanner scanner = new Scanner(System.in);
-
-    private String searchQuery;
-    SearchServicesController controller;
-
+public class SearchServicesView extends View {
+    private final SearchServicesController searchServicesController;
 
     public SearchServicesView(SearchServicesController controller) {
-        this.controller = controller;
+        searchServicesController = controller;
     }
 
-    public void inputSearchQuery(String query) {
-        this.searchQuery = query;
+    public ServiceProvider search() {
+        List<ServiceProvider> results = searchServicesController.findServices(inputString("Search: "));
+        if (results.size() > 0) {
+            System.out.println("Found " + results.size() + " result(s)");
+            for (int i = 0; i < results.size(); i++)
+                System.out.println((i + 1) + ". " + results.get(i).getServiceName());
+            System.out.println(0 + ". Search for something else");
+            int choice = inputWithinRange("Select a service to pay for: ", 0, results.size());
+            if (choice == 0) return search();
+            return results.get(choice - 1);
+        } else System.out.println("No results found");
+        return null;
     }
-
-    public List<ServiceProvider> show() {
-        System.out.print("Search: ");
-        this.inputSearchQuery(scanner.nextLine());
-
-        return controller.getServices(this.searchQuery);
-    }
-
 }

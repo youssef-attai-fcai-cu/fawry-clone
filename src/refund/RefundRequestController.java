@@ -1,26 +1,27 @@
 package refund;
 
+import auth.User;
 import transactions.Transaction;
 import transactions.TransactionRepository;
 
 import java.util.List;
 
 public class RefundRequestController {
-    private final RefundRepository refundRepository;
-    private final TransactionRepository transactionRepository;
-    private final int userID;
+    public final RefundRepository refundRepository;
+    public final TransactionRepository transactionRepository;
+    public final User currentUser;
 
-    public RefundRequestController(RefundRepository refundRepository, TransactionRepository transactionRepository, int userID) {
+    public RefundRequestController(RefundRepository refundRepository, TransactionRepository transactionRepository, User user) {
         this.refundRepository = refundRepository;
         this.transactionRepository = transactionRepository;
-        this.userID = userID;
+        currentUser = user;
     }
 
     public void createRefundRequest(int transactionID) {
-        refundRepository.add(transactionID, this.userID);
+        refundRepository.add(transactionID, currentUser.id());
     }
 
     public List<Transaction> getAllUserTransactions() {
-        return transactionRepository.getTransactionsByUserID(userID);
+        return transactionRepository.getTransactionsByUserID(currentUser.id());
     }
 }

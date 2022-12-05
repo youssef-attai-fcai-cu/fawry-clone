@@ -14,7 +14,7 @@ public class SearchServicesController {
         this.serviceProviders = serviceProvider;
     }
 
-    public List<ServiceProvider> getServices(String query) {
+    public List<ServiceProvider> findServices(String query) {
         return this.serviceProviders
                 .stream().filter(serviceProvider -> serviceProvider
                         .getServiceName()
