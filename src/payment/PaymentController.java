@@ -1,7 +1,5 @@
 package payment;
 
-import discount.DiscountRecord;
-import discount.DiscountRepository;
 import service.ServiceProvider;
 import transactions.Transaction;
 import transactions.TransactionRepository;
@@ -9,26 +7,19 @@ import transactions.TransactionRepository;
 import java.util.Map;
 
 public class PaymentController {
-    private ServiceProvider serviceProvider;
+    private final ServiceProvider serviceProvider;
     private final TransactionRepository transactionRepository;
-    private final DiscountRepository discountRepository;
     private final int currentUserID;
     private PaymentMethod paymentMethod = new CreditCardPayment();
 
     public PaymentController(
             ServiceProvider serviceProvider,
             TransactionRepository transactionRepository,
-            DiscountRepository discountRepository,
             int currentUserID
     ) {
         this.serviceProvider = serviceProvider;
         this.transactionRepository = transactionRepository;
-        this.discountRepository = discountRepository;
         this.currentUserID = currentUserID;
-    }
-
-    public ServiceProvider getServiceProvider() {
-        return this.serviceProvider;
     }
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
@@ -36,23 +27,18 @@ public class PaymentController {
     }
 
     public void submitPaymentForm(Map<String, String> form) {
-        ServiceProvider s = serviceProvider;
-        for (DiscountRecord d : discountRepository.getOverallDiscounts()) {
-            s = new Discount(s, d.percentage());
-        }
-        for (DiscountRecord d : discountRepository.getSpecificDiscounts(serviceProvider.getServiceName())) {
-            s = new Discount(s, d.percentage());
-        }
-        this.serviceProvider = s;
-
+        float bill = serviceProvider.getBillAmount(form);
         if (this.serviceProvider.handleForm(form)) {
-            this.paymentMethod.pay(serviceProvider.getBillAmount(form));
-            this.transactionRepository.createNew(
-                    currentUserID, serviceProvider.getBillAmount(form), serviceProvider.getServiceName()
-            );
+            if (this.paymentMethod.pay(bill))
+                this.transactionRepository.createNew(
+                        currentUserID, bill, serviceProvider.getServiceName()
+                );
+            else
+                System.out.println("Your wallet balance is not enough to complete this transaction");
         }
 
 //        TODO: Remove this
+        System.out.println();
         for (Transaction t : this.transactionRepository.getAllTransactions()) {
             System.out.println(t);
         }
