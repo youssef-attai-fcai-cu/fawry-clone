@@ -6,24 +6,24 @@ import java.util.List;
 public class InMemoryDiscountRepository implements DiscountRepository {
     private final List<DiscountRecord> discountRecords = new ArrayList<>();
 
-    public InMemoryDiscountRepository() {
-//        this.discountRecords.add(new DiscountRecord(50, "<overall>"));
-//        this.discountRecords.add(new DiscountRecord(50, new VodafoneRecharge().getServiceName()));
+    @Override
+    public void addNewOverallDiscount(int percentage) {
+        this.discountRecords.add(new DiscountRecord(percentage, 0));
     }
 
     @Override
-    public void addNewSpecificDiscount(int percentage, String serviceName) {
-        this.discountRecords.add(new DiscountRecord(percentage, serviceName));
+    public void addNewSpecificDiscount(int percentage, int serviceID) {
+        this.discountRecords.add(new DiscountRecord(percentage, serviceID));
     }
 
     @Override
     public List<DiscountRecord> getOverallDiscounts() {
-        return discountRecords.stream().filter(discountRecord -> discountRecord.on().equals("<overall>")).toList();
+        return discountRecords.stream().filter(discountRecord -> discountRecord.serviceID() == 0).toList();
     }
 
     @Override
-    public List<DiscountRecord> getSpecificDiscounts(String on) {
-        return discountRecords.stream().filter(discountRecord -> discountRecord.on().equals(on)).toList();
+    public List<DiscountRecord> getSpecificDiscounts(int serviceID) {
+        return discountRecords.stream().filter(discountRecord -> discountRecord.serviceID() == serviceID).toList();
     }
 
 }

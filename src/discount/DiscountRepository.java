@@ -3,7 +3,9 @@ package discount;
 import java.util.List;
 
 public interface DiscountRepository {
-    void addNewSpecificDiscount(int percentage, String serviceName);
+    void addNewOverallDiscount(int percentage);
+    void addNewSpecificDiscount(int percentage, int serviceID);
     List<DiscountRecord> getOverallDiscounts();
-    List<DiscountRecord> getSpecificDiscounts(String on);
+
+    List<DiscountRecord> getSpecificDiscounts(int serviceID);
 }
