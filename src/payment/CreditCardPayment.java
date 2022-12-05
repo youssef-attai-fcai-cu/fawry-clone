@@ -2,7 +2,7 @@ package payment;
 
 public class CreditCardPayment implements PaymentMethod {
     @Override
-    public void pay(float amount) {
-
+    public boolean pay(float amount) {
+        return true;
     }
 }
