@@ -33,4 +33,9 @@ public class We implements ServiceProvider {
     public float getBillAmount(Map<String, String> form) {
         return Float.parseFloat(form.get(amount.label()));
     }
+
+    @Override
+    public int getServiceID() {
+        return 321;
+    }
 }

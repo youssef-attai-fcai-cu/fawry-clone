@@ -13,4 +13,6 @@ public interface ServiceProvider {
     String getServiceName();
 
     float getBillAmount(Map<String, String> form);
+
+    int getServiceID();
 }
