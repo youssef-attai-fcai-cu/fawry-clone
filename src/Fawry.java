@@ -1,4 +1,6 @@
 import auth.*;
+import discount.Discount;
+import discount.DiscountRecord;
 import discount.DiscountRepository;
 import discount.InMemoryDiscountRepository;
 import payment.*;
@@ -7,13 +9,11 @@ import search.SearchServicesController;
 import search.SearchServicesView;
 import service.*;
 import transactions.InMemoryTransactionRepository;
-import transactions.Transaction;
 import transactions.TransactionRepository;
+import wallet.WalletController;
+import wallet.WalletView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Fawry {
     private User currentUser = null;
@@ -35,39 +35,21 @@ public class Fawry {
                 fawry.adminMenu();
             }
         }
-
-//        SearchServicesController searchServicesController = new SearchServicesController(List.of(
-//                new VodafoneRecharge()
-//        ));
-//        SearchServicesView searchServicesView = new SearchServicesView(searchServicesController);
-//
-//        TransactionRepository transactionRepository = new InMemoryTransactionRepository();
-//        DiscountRepository discountRepository = new InMemoryDiscountRepository();
-//
-//        PaymentController paymentController = new PaymentController(new VodafoneRecharge(), transactionRepository, discountRepository, currentUser.id());
-//
-
     }
 
     private void adminMenu() {
         while (this.currentUser != null) {
-            System.out.println("1. Manage discounts\n" +
-                    "2. Manage refund requests\n" +
-                    "3. Logout\n");
+            System.out.println("""
+
+                    1. Manage discounts
+                    2. Manage refund requests
+                    3. Logout""");
             int choice = inputChoice(1, 3);
             switch (choice) {
-                case 1 -> {
-                    this.manageDiscounts();
-                }
-                case 2 -> {
-                    this.manageRefundRequests();
-                }
-                case 3 -> {
-                    this.logout();
-                }
-                default -> {
-                    System.out.println("Invalid option");
-                }
+                case 1 -> this.manageDiscounts();
+                case 2 -> this.manageRefundRequests();
+                case 3 -> this.logout();
+                default -> System.out.println("Invalid option");
             }
         }
     }
@@ -75,30 +57,30 @@ public class Fawry {
     private void manageRefundRequests() {
         RefundResponseController refundResponseController = new RefundResponseController(refundRepository);
         RefundResponseView refundResponseView = new RefundResponseView(refundResponseController);
-        refundResponseView.show();
 
-        System.out.println("Select a refund request by its ID");
-        int requestID = inputChoice(0, refundRepository.count());
+        if (refundRepository.count() > 0) {
+            System.out.println("Select a refund request by its ID\n");
+            refundResponseView.show();
+            int requestID = inputChoice(0, refundRepository.count());
 
-        System.out.println("Request state: " +
-                "1. Accept" +
-                "2. Reject" +
-                "3. Keep pending"
-        );
-        RefundStatus refundStatus;
-        switch (inputChoice(0, refundRepository.count())) {
-            case 1 -> {
-                refundStatus = RefundStatus.Accepted;
+            System.out.println("""
+                    Request state:
+
+                    1. Accept
+                    2. Reject
+                    3. Keep pending"""
+            );
+            RefundStatus refundStatus;
+            switch (inputChoice(0, refundRepository.count())) {
+                case 1 -> refundStatus = RefundStatus.Accepted;
+                case 2 -> refundStatus = RefundStatus.Rejected;
+                default -> refundStatus = RefundStatus.Pending;
             }
-            case 2 -> {
-                refundStatus = RefundStatus.Rejected;
-            }
-            default -> {
-                refundStatus = RefundStatus.Pending;
-            }
+
+            refundResponseView.setRefundStatus(requestID, refundStatus);
+        } else {
+            System.out.println("\nThere are no requested refunds\n");
         }
-
-        refundResponseView.setRefundStatus(requestID, refundStatus);
     }
 
     private void manageDiscounts() {
@@ -107,10 +89,16 @@ public class Fawry {
             System.out.println((i + 1) + ". " + getAllServices().get(i).getServiceName());
         }
         System.out.println("0. All services");
-        int choice = inputChoice(0, getAllServices().size() - 1);
+        int choice = inputChoice(0, getAllServices().size());
 
-//        TODO: Check if user chose 0, then add new overall discount rather than specific discount
-        discountRepository.addNewSpecificDiscount(inputChoice(1, 99), getAllServices().get(choice).getServiceName());
+        System.out.println("\nDiscount percentage:");
+        int percentage = inputChoice(1, 99);
+
+        if (choice == 0) {
+            discountRepository.addNewOverallDiscount(percentage);
+        } else {
+            discountRepository.addNewSpecificDiscount(percentage, getAllServices().get(choice - 1).getServiceID());
+        }
     }
 
     public void auth() {
@@ -137,31 +125,21 @@ public class Fawry {
 
     public void userMenu() {
         while (this.currentUser != null) {
-            System.out.println("1. Search for services\n" +
-                    "2. Make a refund request\n" +
-                    "3. See my refund requests\n" +
-                    "4. Add funds to wallet\n" +
-                    "5. Logout\n");
-            int choice = inputChoice(1, 4);
+            System.out.println("""
+
+                    1. Search for services
+                    2. Make a refund request
+                    3. See my refund requests
+                    4. Add funds to wallet
+                    5. Logout""");
+            int choice = inputChoice(1, 5);
             switch (choice) {
-                case 1 -> {
-                    this.searchForServices();
-                }
-                case 2 -> {
-                    this.requestRefund();
-                }
-                case 3 -> {
-                    this.myRequestRequests();
-                }
-                case 4 -> {
-                    this.addFundsToWallet();
-                }
-                case 5 -> {
-                    this.logout();
-                }
-                default -> {
-                    System.out.println("Invalid option");
-                }
+                case 1 -> this.searchForServices();
+                case 2 -> this.requestRefund();
+                case 3 -> this.myRequestRequests();
+                case 4 -> this.addFundsToWallet();
+                case 5 -> this.logout();
+                default -> System.out.println("Invalid option");
             }
         }
     }
@@ -177,7 +155,22 @@ public class Fawry {
     }
 
     private void addFundsToWallet() {
+        WalletController walletController = new WalletController(userRepository, currentUser.id());
+        WalletView walletView = new WalletView(walletController);
+        System.out.println("Your wallet balance: " + currentUser.walletBalance());
+        System.out.print("Amount: ");
 
+        float funds = -1;
+
+        while (funds == -1) {
+            try {
+                funds = Float.parseFloat(this.scanner.nextLine());
+            } catch (Exception e) {
+                funds = -1;
+            }
+        }
+
+        walletView.addFunds(funds);
     }
 
     private void requestRefund() {
@@ -196,6 +189,7 @@ public class Fawry {
         List<ServiceProvider> results = searchServicesView.show();
 
         if (results.size() > 0) {
+            System.out.println("\n" + results.size() + " results found: \n");
             for (int i = 0; i < results.size(); i++) {
                 System.out.println((i + 1) + ". " + results.get(i).getServiceName());
             }
@@ -205,25 +199,39 @@ public class Fawry {
 
             if (choice == 0) {
                 searchForServices();
-            }
-            if (choice <= results.size() && choice > 0) {
+            } else if (choice <= results.size() && choice > 0) {
                 payForService(results.get(choice - 1));
             }
         } else {
             System.out.println("No results found");
-            searchForServices();
         }
     }
 
     private List<ServiceProvider> getAllServices() {
-        return List.of(
+        ServiceProvider[] services = {
                 new VodafoneRecharge(),
                 new We()
-        );
+        };
+
+//        For each service
+        for (int i = 0; i < services.length; i++) {
+//            For each overall service
+            for (DiscountRecord d : discountRepository.getSpecificDiscounts(services[i].getServiceID())) {
+//                Wrap service with discount decorator
+                services[i] = new Discount(services[i], d.percentage());
+            }
+//            For each specific service
+            for (DiscountRecord d : discountRepository.getOverallDiscounts()) {
+//                Wrap service with discount decorator
+                services[i] = new Discount(services[i], d.percentage());
+            }
+        }
+
+        return Arrays.stream(services).toList();
     }
 
     private void payForService(ServiceProvider serviceProvider) {
-        PaymentController paymentController = new PaymentController(serviceProvider, transactionRepository, discountRepository, currentUser.id());
+        PaymentController paymentController = new PaymentController(serviceProvider, transactionRepository, currentUser.id());
         PaymentView paymentView = new PaymentView(paymentController);
 
         System.out.println("Choose a payment method:\n");
@@ -237,15 +245,9 @@ public class Fawry {
 
         PaymentMethod paymentMethod;
         switch (choice) {
-            case 2 -> {
-                paymentMethod = new WalletPayment();
-            }
-            case 3 -> {
-                paymentMethod = new CashOnDeliveryPayment();
-            }
-            default -> {
-                paymentMethod = new CreditCardPayment();
-            }
+            case 2 -> paymentMethod = new WalletPayment(userRepository, currentUser.id());
+            case 3 -> paymentMethod = new CashOnDeliveryPayment();
+            default -> paymentMethod = new CreditCardPayment();
         }
         paymentView.selectPaymentMethod(paymentMethod);
 
@@ -263,8 +265,12 @@ public class Fawry {
         int choice;
         do {
             System.out.print("\n> ");
-            choice = Integer.parseInt(this.scanner.nextLine());
-        } while (end < choice && choice < start);
+            try {
+                choice = Integer.parseInt(this.scanner.nextLine());
+            } catch (Exception e) {
+                choice = -1;
+            }
+        } while (end < choice || choice < start);
         return choice;
     }
 
