@@ -1,4 +1,4 @@
-package payment;
+package discount;
 
 import service.PaymentFormField;
 import service.ServiceProvider;
@@ -32,12 +32,17 @@ public class Discount implements ServiceProvider {
 
     @Override
     public String getServiceName() {
-        return this.wrapped.getServiceName() + " -%"+this.percentage+" OFF";
+        return this.wrapped.getServiceName() + " (%" + this.percentage + " OFF)";
     }
 
     @Override
     public float getBillAmount(Map<String, String> form) {
         float bill = this.wrapped.getBillAmount(form);
         return bill - (bill * (percentage / 100.0f));
+    }
+
+    @Override
+    public int getServiceID() {
+        return wrapped.getServiceID();
     }
 }
