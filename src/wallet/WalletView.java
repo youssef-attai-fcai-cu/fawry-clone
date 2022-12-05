@@ -1,16 +1,16 @@
 package wallet;
 
-import java.util.Scanner;
+import core.View;
 
-public class WalletView {
-    private WalletController controller;
-
+public class WalletView extends View {
+    public final WalletController walletController;
 
     public WalletView(WalletController controller) {
-        this.controller = controller;
+        walletController = controller;
     }
 
-    public void addFunds(float funds) {
-        this.controller.addWalletBalance(funds);
+    public void show() {
+        System.out.println("Your current wallet balance: " + walletController.currentUser.walletBalance());
+        walletController.addWalletBalance(inputFloat("Amount to add: "));
     }
 }
