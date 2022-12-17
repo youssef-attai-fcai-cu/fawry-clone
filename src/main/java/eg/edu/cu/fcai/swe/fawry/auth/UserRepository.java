@@ -2,17 +2,13 @@ package eg.edu.cu.fcai.swe.fawry.auth;
 
 public interface UserRepository {
 
-    User addNewUser(boolean isAdmin, String username, String email, String password);
+    User create(boolean isAdmin, String username, String email, String password);
 
-    void updateWalletBalance(int userID, float funds);
+    User getEmailAndPassword(String email, String password);
 
-    User getUserForSignIn(String email, String password);
+    User getByEmail(String email);
 
-    User getUserForSignUp(String email, String password);
+    User getByUsername(String username);
 
-    User getUserByEmail(String email);
-
-    User getUserByUsername(String username);
-
-    float getUserWalletBalance(int currentUserID);
+    User getById(String userId);
 }

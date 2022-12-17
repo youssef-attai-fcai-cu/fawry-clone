@@ -6,6 +6,5 @@ public record User
          String username,
          String email,
          String password,
-         Integer id,
-         Float walletBalance) {
+         String id) {
 }

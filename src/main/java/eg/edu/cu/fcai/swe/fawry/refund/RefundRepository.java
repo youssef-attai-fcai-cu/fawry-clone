@@ -1,16 +1,12 @@
 package eg.edu.cu.fcai.swe.fawry.refund;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 public interface RefundRepository {
-    void add(int transactionID, int userID);
-    List<RefundRequest> getAllRefundRequests();
-    void setRefundRequestStatus(int requestID, RefundStatus refundStatus);
+    RefundRequest create(String transactionId, String userId);
 
-    List<RefundRequest> getRefundRequestsByUserID(int userID);
+    RefundRequest setStatus(String requestID, RefundStatus refundStatus);
 
-    int count();
+    List<RefundRequest> getAll();
 }
 

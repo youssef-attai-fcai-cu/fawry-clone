@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class InMemoryUserRepository implements UserRepository {
@@ -12,75 +13,29 @@ public class InMemoryUserRepository implements UserRepository {
 
     // Adding new users in List
     @Override
-    public User addNewUser(boolean isAdmin, String username, String email, String password) {
-        User newUser = new User(isAdmin, username, email, password, users.size(), 0.0f);
+    public User create(boolean isAdmin, String username, String email, String password) {
+        User newUser = new User(isAdmin, username, email, password, "USER-" + UUID.randomUUID());
         users.add(newUser);
         return newUser;
     }
 
     @Override
-    public void updateWalletBalance(int userID, float funds) {
-        List<User> userList = this.users;
-        for (int i = 0; i < userList.size(); i++) {
-            User u = userList.get(i);
-            if (u.id() == userID) {
-                users.set(i, new User(
-                        u.isAdmin(),
-                        u.username(),
-                        u.email(),
-                        u.password(),
-                        u.id(),
-                        u.walletBalance() + funds));
-                break;
-            }
-        }
+    public User getEmailAndPassword(String email, String password) {
+        return users.stream().filter(user -> user.email().equals(email) && user.password().equals(password)).findFirst().orElse(null);
     }
 
     @Override
-    public User getUserForSignIn(String email, String password) {
-        for (User user : users)
-            if (user.email().equals(email)) {
-                if (user.password().equals(password))
-                    return user;
-                return null;
-            }
-        return null;
+    public User getByEmail(String email) {
+        return users.stream().filter(user -> user.email().equals(email)).findFirst().orElse(null);
     }
 
     @Override
-    public User getUserForSignUp(String email, String password) {
-        for (User user : users)
-            if (user.email().equals(email)) {
-                if (user.password().equals(password))
-                    return user;
-                return null;
-            }
-        return null;
+    public User getByUsername(String username) {
+        return users.stream().filter(user -> user.username().equals(username)).findFirst().orElse(null);
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        for (User user : users)
-            if (user.email().equals(email))
-                return user;
-        return null;
-    }
-
-    @Override
-    public User getUserByUsername(String username) {
-        for (User user : users)
-            if (user.username().equals(username))
-                return user;
-        return null;
-    }
-
-    @Override
-    public float getUserWalletBalance(int userID) {
-        for (User user : this.users) {
-            if (user.id() == userID) {
-                return user.walletBalance();
-            }
-        }
-        return -1;
+    public User getById(String userId) {
+        return users.stream().filter(user -> user.id().equals(userId)).findFirst().orElse(null);
     }
 }

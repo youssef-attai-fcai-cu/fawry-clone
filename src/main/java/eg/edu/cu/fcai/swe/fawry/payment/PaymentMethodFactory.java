@@ -1,10 +1,10 @@
 package eg.edu.cu.fcai.swe.fawry.payment;
 
 public class PaymentMethodFactory {
-    public PaymentMethod create(Integer method) {
+    public PaymentMethod create(PaymentOption method) {
         return switch (method) {
-            case 1 -> new WalletPayment();
-            case 2 -> new CashOnDeliveryPayment();
+            case WALLET -> new WalletPayment();
+            case CASH -> new CashOnDeliveryPayment();
             default -> new CreditCardPayment();
         };
     }
