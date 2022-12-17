@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-.idea
-out
-*.iml
-=======
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -73,4 +68,3 @@ secrets.yml
 
 *.bkp
 *.dtmp
->>>>>>> e383084 (Move project)
