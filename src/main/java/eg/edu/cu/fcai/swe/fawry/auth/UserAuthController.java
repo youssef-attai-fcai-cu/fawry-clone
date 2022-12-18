@@ -39,7 +39,7 @@ public class UserAuthController {
         if (!checkConflicts(form.email(), form.username()))
             throw new UserAlreadyExistsException();
 
-        String userId = userRepository.create(form.isAdmin(), form.username(), form.email(), form.password()).id();
+        String userId = userRepository.create(form.isAdmin(), form.username(), form.email(), form.password()).userId();
         walletRepository.createWallet(userId);
         return Map.of("userId", userId);
     }
@@ -58,7 +58,7 @@ public class UserAuthController {
             throw new IncorrectUserException();
 
         return Map.of(
-                "userId", user.id(),
+                "userId", user.userId(),
                 "username", user.username(),
                 "email", user.email()
         );

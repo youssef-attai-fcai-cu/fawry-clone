@@ -19,8 +19,7 @@ public class InMemoryWalletRepository implements WalletRepository {
 
     @Override
     public Float getUserBalance(String userId) {
-        Optional<Wallet> found = wallets.stream().filter(wallet -> wallet.userId().equals(userId)).findFirst();
-        return found.map(Wallet::balance).orElse(null);
+        return wallets.stream().filter(wallet -> wallet.userId().equals(userId)).findFirst().map(Wallet::balance).orElse(null);
     }
 
     @Override
