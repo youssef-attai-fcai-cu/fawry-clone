@@ -19,23 +19,12 @@ public class DiscountController {
     }
 
     @GetMapping
-    public List<Discount> getOverall() {
+    public List<Integer> getOverall() {
         return discountRepository.getAllOverall();
     }
 
     @GetMapping("/{providerId}")
-    public List<Discount> getSpecific(@PathVariable String providerId) {
-        return discountRepository.getAllSpecific(providerId);
-    }
-
-    @PostMapping
-    public void addNewDiscount(@RequestBody DiscountForm form) {
-        if (Objects.isNull(form.percentage()))
-            throw new MissingFieldException("percentage");
-
-        if (!Validator.fieldDoesNotExist(form.providerId()))
-            discountRepository.addOverall(form.percentage());
-        else
-            discountRepository.addSpecific(form.providerId(), form.percentage());
+    public List<Integer> getSpecific(@PathVariable String providerId) {
+        return discountRepository.getAllSpecific(providerId).stream().map(Discount::percentage).toList();
     }
 }
