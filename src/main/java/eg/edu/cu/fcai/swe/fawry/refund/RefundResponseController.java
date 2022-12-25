@@ -1,51 +1,55 @@
 package eg.edu.cu.fcai.swe.fawry.refund;
 
-import eg.edu.cu.fcai.swe.fawry.common.MissingFieldException;
+import eg.edu.cu.fcai.swe.fawry.auth.InMemoryUserRepository;
+import eg.edu.cu.fcai.swe.fawry.auth.UserRepository;
 import eg.edu.cu.fcai.swe.fawry.common.ResourceNotFound;
+import eg.edu.cu.fcai.swe.fawry.common.Response;
 import eg.edu.cu.fcai.swe.fawry.common.Validator;
 import eg.edu.cu.fcai.swe.fawry.transaction.InMemoryTransactionRepository;
 import eg.edu.cu.fcai.swe.fawry.transaction.Transaction;
 import eg.edu.cu.fcai.swe.fawry.transaction.TransactionRepository;
-import eg.edu.cu.fcai.swe.fawry.wallet.InMemoryWalletRepository;
-import eg.edu.cu.fcai.swe.fawry.wallet.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/refundResponse")
+@RequestMapping("/refund")
 public class RefundResponseController {
     private final RefundRepository refundRepository;
-    private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public RefundResponseController(
+            InMemoryUserRepository _userRepository,
             InMemoryRefundRepository _refundRepository,
-            InMemoryWalletRepository _walletRepository,
             InMemoryTransactionRepository _transactionRepository
     ) {
+        userRepository = _userRepository;
         refundRepository = _refundRepository;
-        walletRepository = _walletRepository;
         transactionRepository = _transactionRepository;
     }
 
-    @PostMapping
-    public RefundStatus setRequestStatus(@RequestBody RefundResponseForm form) {
-        if (Validator.fieldDoesNotExist(form.requestId()))
-            throw new MissingFieldException("requestId");
+    @GetMapping("/all")
+    public List<RefundRequest> getAllRefundRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        Validator.validateAdminToken(userRepository, token);
+        return refundRepository.getAll();
+    }
 
-        if (Objects.isNull(form.refundStatus()))
-            throw new MissingFieldException("refundStatus");
+    @PostMapping("/response")
+    public Response setRequestStatus(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody RefundResponseForm form) {
+        Validator.validateAdminToken(userRepository, token);
 
-        RefundRequest refundRequest = refundRepository.setStatus(form.requestId(), form.refundStatus());
+        Validator.assertFieldExists("transactionId", form.transactionId());
+        Validator.assertFieldExists("refundStatus", form.refundStatus().ordinal());
+
+        RefundRequest refundRequest = refundRepository.setStatus(form.transactionId(), form.refundStatus());
 
         if (Objects.isNull(refundRequest))
-            throw new ResourceNotFound("Refund request", form.requestId());
+            throw new ResourceNotFound("Transaction", form.transactionId());
 
         Transaction transaction = transactionRepository.getById(refundRequest.transactionId());
 

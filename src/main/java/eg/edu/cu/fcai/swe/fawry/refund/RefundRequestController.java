@@ -1,11 +1,14 @@
 package eg.edu.cu.fcai.swe.fawry.refund;
 
-import eg.edu.cu.fcai.swe.fawry.common.MissingFieldException;
+import eg.edu.cu.fcai.swe.fawry.auth.InMemoryUserRepository;
+import eg.edu.cu.fcai.swe.fawry.auth.User;
+import eg.edu.cu.fcai.swe.fawry.auth.UserRepository;
 import eg.edu.cu.fcai.swe.fawry.common.ResourceNotFound;
 import eg.edu.cu.fcai.swe.fawry.common.Validator;
 import eg.edu.cu.fcai.swe.fawry.transaction.Transaction;
 import eg.edu.cu.fcai.swe.fawry.transaction.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.Objects;
 
 
 @RestController
-@RequestMapping("/refundRequest")
+@RequestMapping("/refund/request")
 public class RefundRequestController {
     public final RefundRepository refundRepository;
     public final TransactionRepository transactionRepository;
@@ -28,18 +31,20 @@ public class RefundRequestController {
     ) {
         refundRepository = _refundRepository;
         transactionRepository = _transactionRepository;
+        userRepository = _userRepository;
     }
 
     @GetMapping
-    public List<RefundRequest> getAllRefundRequests() {
-        return refundRepository.getAll();
+    public List<RefundRequest> getUserRefundRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        User user = Validator.validateUserToken(userRepository, token);
+        return refundRepository.getRefundRequestsForTransactions(transactionRepository.getByUserId(user.userId()).stream().map(Transaction::transactionId).toList());
     }
 
     @PostMapping
-    public RefundRequest createRefundRequest(@RequestBody RefundRequestForm form) {
-        if (Validator.fieldDoesNotExist(form.transactionId()))
-            throw new MissingFieldException("transactionId");
+    public RefundRequest createRefundRequest(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody RefundRequestForm form) {
+        User user = Validator.validateUserToken(userRepository, token);
 
+        Validator.assertFieldExists("transactionId", form.transactionId());
         Transaction transaction = transactionRepository.getById(form.transactionId());
 
         if (Objects.isNull(transaction))
