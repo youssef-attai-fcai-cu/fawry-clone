@@ -1,8 +1,5 @@
 package eg.edu.cu.fcai.swe.fawry.auth;
 
-import eg.edu.cu.fcai.swe.fawry.common.IncorrectUserException;
-import eg.edu.cu.fcai.swe.fawry.common.MissingFieldException;
-import eg.edu.cu.fcai.swe.fawry.common.Validator;
 import eg.edu.cu.fcai.swe.fawry.wallet.InMemoryWalletRepository;
 import eg.edu.cu.fcai.swe.fawry.wallet.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,67 +8,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/auth")
-public class UserAuthController {
-    private final UserRepository userRepository;
+@RequestMapping("/auth/user")
+public class UserAuthController extends AuthController {
     private final WalletRepository walletRepository;
 
     @Autowired
     public UserAuthController(InMemoryUserRepository _userRepository, InMemoryWalletRepository _walletRepository) {
-        userRepository = _userRepository;
+        super(_userRepository);
         walletRepository = _walletRepository;
     }
 
+    @Override
+    User createUser(UserSignUpForm form) {
+        User newUser = userRepository.createUser(form.username(), form.email(), form.password());
+        walletRepository.createWallet(newUser.userId());
+        return newUser;
+    }
+
+    @Override
+    User getUser(UserSignInForm form) {
+        return userRepository.getUserByEmailAndPassword(form.email(), form.password());
+    }
+
     @PostMapping("/signup")
-    public Map<String, String> signUp(@RequestBody UserSignUpForm form) {
-        if (form.isAdmin() == null)
-            throw new MissingFieldException("isAdmin");
-        if (Validator.fieldDoesNotExist(form.username()))
-            throw new MissingFieldException("username");
-        if (Validator.fieldDoesNotExist(form.email()))
-            throw new MissingFieldException("email");
-        if (Validator.fieldDoesNotExist(form.password()))
-            throw new MissingFieldException("password");
-
-        if (!checkConflicts(form.email(), form.username()))
-            throw new UserAlreadyExistsException();
-
-        String userId = userRepository.create(form.isAdmin(), form.username(), form.email(), form.password()).userId();
-        walletRepository.createWallet(userId);
-        return Map.of("userId", userId);
+    public SignUpResponse userSignUp(@RequestBody UserSignUpForm form) {
+        return signUp(form);
     }
 
     @PostMapping("/signin")
-    public Map<String, String> signIn(@RequestBody UserSignInForm form) {
-        if (Validator.fieldDoesNotExist(form.email()))
-            throw new MissingFieldException("email");
-
-        if (Validator.fieldDoesNotExist(form.password()))
-            throw new MissingFieldException("password");
-
-        User user = userRepository.getEmailAndPassword(form.email(), form.password());
-
-        if (user == null)
-            throw new IncorrectUserException();
-
-        return Map.of(
-                "userId", user.userId(),
-                "username", user.username(),
-                "email", user.email()
-        );
+    public SignInResponse userSignIn(@RequestBody UserSignInForm form) {
+        return signIn(form);
     }
-
-    private boolean checkConflicts(String email, String username) {
-        User existingUser;
-
-        existingUser = userRepository.getByEmail(email);
-        if (existingUser != null) return false;
-
-        existingUser = userRepository.getByUsername(username);
-        return existingUser == null;
-    }
-
 }
