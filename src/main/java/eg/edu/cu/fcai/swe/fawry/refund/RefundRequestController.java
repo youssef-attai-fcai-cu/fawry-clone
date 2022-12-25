@@ -17,9 +17,15 @@ import java.util.Objects;
 public class RefundRequestController {
     public final RefundRepository refundRepository;
     public final TransactionRepository transactionRepository;
+    private final UserRepository userRepository;
+
 
     @Autowired
-    public RefundRequestController(InMemoryRefundRepository _refundRepository, TransactionRepository _transactionRepository) {
+    public RefundRequestController(
+            InMemoryUserRepository _userRepository,
+            InMemoryRefundRepository _refundRepository,
+            TransactionRepository _transactionRepository
+    ) {
         refundRepository = _refundRepository;
         transactionRepository = _transactionRepository;
     }
