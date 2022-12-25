@@ -27,4 +27,9 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     public Transaction getById(String transactionId) {
         return transactions.stream().filter(transaction -> transaction.transactionId().equals(transactionId)).findFirst().orElse(null);
     }
+
+    @Override
+    public List<Transaction> getAll() {
+        return transactions;
+    }
 }
