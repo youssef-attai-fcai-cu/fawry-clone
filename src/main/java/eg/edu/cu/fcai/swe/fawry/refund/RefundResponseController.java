@@ -52,7 +52,9 @@ public class RefundResponseController {
         if (Objects.isNull(transaction))
             throw new ResourceNotFound("Transaction", refundRequest.transactionId());
 
-        walletRepository.updateUserBalance(refundRequest.userId(), transaction.amount());
-        return form.refundStatus();
+        if (refundRequest.refundStatus().equals(RefundStatus.Accepted))
+            transactionRepository.create(transaction.userId(), transaction.amount(), "Refund");
+
+        return new Response("Refund request for transaction with ID " + refundRequest.transactionId() + " is now " + refundRequest.refundStatus().name());
     }
 }
