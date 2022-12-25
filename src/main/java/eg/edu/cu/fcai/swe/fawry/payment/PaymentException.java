@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class PaymentException extends APIException {
     public PaymentException() {
-        super("Something went wrong, unsuccessful payment", HttpStatus.SERVICE_UNAVAILABLE);
+        super("Something went wrong, unsuccessful payment.", HttpStatus.SERVICE_UNAVAILABLE);
     }
 }
