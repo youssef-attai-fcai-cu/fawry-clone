@@ -1,7 +1,7 @@
 package eg.edu.cu.fcai.swe.fawry.refund;
 
 public record RefundResponseForm(
-        String requestId,
+        String transactionId,
         RefundStatus refundStatus
 ) {
 }
