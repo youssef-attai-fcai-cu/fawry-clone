@@ -24,6 +24,12 @@ public class WalletController {
         transactionRepository = _transactionRepository;
     }
 
+    @GetMapping
+    public Response checkCurrentBalance(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        User user = Validator.validateUserToken(userRepository, token);
+        return new Response(walletRepository.getUserBalance(user.userId()));
+    }
+
     @PostMapping
     public Float addWalletBalance(@RequestBody AddWalletBalanceForm form) {
         if (Validator.fieldDoesNotExist(form.userId()))
