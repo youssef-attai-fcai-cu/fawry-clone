@@ -8,4 +8,6 @@ public interface TransactionRepository {
     List<Transaction> getByUserId(String userID);
 
     Transaction getById(String transactionId);
+
+    List<Transaction> getAll();
 }
