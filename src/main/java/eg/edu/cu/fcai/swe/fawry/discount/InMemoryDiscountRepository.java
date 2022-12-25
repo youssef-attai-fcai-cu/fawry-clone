@@ -20,8 +20,8 @@ public class InMemoryDiscountRepository implements DiscountRepository {
     }
 
     @Override
-    public List<Discount> getAllOverall() {
-        return getAllSpecific("*");
+    public List<Integer> getAllOverall() {
+        return getAllSpecific("*").stream().map(Discount::percentage).toList();
     }
 
     @Override
