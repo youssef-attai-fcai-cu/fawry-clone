@@ -39,7 +39,11 @@ public class RefundRequestController {
         if (Objects.isNull(transaction))
             throw new ResourceNotFound("Transaction", form.transactionId());
 
-        RefundRequest newRefundRequest = refundRepository.create(form.transactionId(), transaction.userId());
+        // Make sure the transaction belongs to the signed-in user
+        if (!transaction.userId().equals(user.userId()))
+            throw new ResourceNotFound("Transaction", form.transactionId());
+
+        RefundRequest newRefundRequest = refundRepository.create(form.transactionId());
 
         if (Objects.isNull(newRefundRequest))
             throw new RefundAlreadyRequested(transaction.transactionId());
