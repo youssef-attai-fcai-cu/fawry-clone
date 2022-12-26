@@ -1,5 +1,7 @@
 package eg.edu.cu.fcai.swe.fawry.common;
 
+import eg.edu.cu.fcai.swe.fawry.common.exception.APIError;
+import eg.edu.cu.fcai.swe.fawry.common.exception.APIException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

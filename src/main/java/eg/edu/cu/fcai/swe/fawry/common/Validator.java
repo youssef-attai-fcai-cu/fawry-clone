@@ -1,7 +1,10 @@
 package eg.edu.cu.fcai.swe.fawry.common;
 
-import eg.edu.cu.fcai.swe.fawry.auth.User;
-import eg.edu.cu.fcai.swe.fawry.auth.UserRepository;
+import eg.edu.cu.fcai.swe.fawry.auth.model.User;
+import eg.edu.cu.fcai.swe.fawry.common.repository.UserRepository;
+import eg.edu.cu.fcai.swe.fawry.payment.exception.InvalidAmount;
+import eg.edu.cu.fcai.swe.fawry.common.exception.InvalidToken;
+import eg.edu.cu.fcai.swe.fawry.common.exception.MissingFieldException;
 
 import java.util.Objects;
 

@@ -1,6 +1,6 @@
 package eg.edu.cu.fcai.swe.fawry.service;
 
-import eg.edu.cu.fcai.swe.fawry.payment.PaymentForm;
+import eg.edu.cu.fcai.swe.fawry.payment.request.PaymentRequestBody;
 
 public abstract class ServiceProvider {
     private String id;
@@ -27,5 +27,5 @@ public abstract class ServiceProvider {
         this.name = name;
     }
 
-    public abstract boolean handle(PaymentForm form);
+    public abstract boolean handle(PaymentRequestBody form);
 }
