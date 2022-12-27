@@ -53,7 +53,7 @@ public class PaymentController {
     }
 
     @PostMapping("/{providerId}")
-    public Transaction pay(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String providerId, @RequestBody PaymentRequestBody form) {
+    public Transaction pay(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String providerId, @RequestBody PaymentRequestBody body) {
         // Make sure user token exists, if so, get the user associated with this token
         User user = Validator.validateUserToken(userRepository, token);
 
@@ -62,14 +62,13 @@ public class PaymentController {
         ServiceProvider service = serviceProviderRepository.getById(providerId);
         if (Objects.isNull(service)) throw new ResourceNotFound("Service provider", providerId);
 
-        // Make sure a non-negative bill amount is provided
-        Validator.assertFieldExists("billAmount", form.billAmount());
-        Validator.assertNumberWithinRange("billAmount", form.billAmount(), 0.0f, Float.MAX_VALUE);
-
         // Make sure providerId provider fields are provided
-        Validator.assertFieldExists("fields", form.fields());
+        Validator.assertFieldExists("fields", body.fields());
 
-        float bill = form.billAmount();
+        // Make sure a non-negative bill amount is provided
+        Validator.assertFieldExists("billAmount", body.fields().get("billAmount"));
+        float bill = Float.parseFloat(body.fields().get("billAmount").toString());
+        Validator.assertNumberWithinRange("billAmount", bill, 0.0f, Float.MAX_VALUE);
 
         // Apply discounts
         for (int percentage : discountRepository.getAllOverall())
@@ -78,17 +77,15 @@ public class PaymentController {
             bill -= bill * (discount.percentage() / 100.0f);
 
         // Get the selected payment method, if nothing is selected, credit card is selected by default
-        PaymentOption paymentOption = form.paymentMethod();
+        PaymentOption paymentOption = body.paymentMethod();
         if (Objects.isNull(paymentOption)) paymentOption = PaymentOption.CREDIT;
         PaymentMethod paymentMethod = paymentMethodFactory.create(paymentOption);
 
         // The providerId provider does their job
-        if (!service.handle(form)) throw new ServiceProviderException(service);
+        if (!service.handle(body.fields())) throw new ServiceProviderException(service);
 
         // Payment
-        if (!paymentMethod.pay(bill)) {
-            throw new PaymentException();
-        }
+        if (!paymentMethod.pay(bill)) throw new PaymentException();
 
         // Record a successful payment transaction
         return transactionRepository.create(user.userId(), bill, service.getName());

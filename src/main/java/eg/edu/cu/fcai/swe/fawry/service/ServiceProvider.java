@@ -1,22 +1,22 @@
 package eg.edu.cu.fcai.swe.fawry.service;
 
-import eg.edu.cu.fcai.swe.fawry.payment.request.PaymentRequestBody;
+import java.util.Map;
 
 public abstract class ServiceProvider {
-    private String id;
+    private String providerId;
     private String name;
 
-    public ServiceProvider(String id, String name) {
-        this.id = id;
+    public ServiceProvider(String providerId, String name) {
+        this.providerId = providerId;
         this.name = name;
     }
 
-    public String getId() {
-        return id;
+    public String getProviderId() {
+        return providerId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 
     public String getName() {
@@ -27,5 +27,5 @@ public abstract class ServiceProvider {
         this.name = name;
     }
 
-    public abstract boolean handle(PaymentRequestBody form);
+    public abstract boolean handle(Map<String, Object> paymentForm);
 }

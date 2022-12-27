@@ -6,7 +6,6 @@ import java.util.Map;
 
 public record PaymentRequestBody(
         PaymentOption paymentMethod,
-        Float billAmount,
         Map<String, Object> fields
 ) {
 }
