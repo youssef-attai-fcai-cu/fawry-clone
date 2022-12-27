@@ -11,8 +11,8 @@ public class PaymentMethodFactory {
         userId = _userId;
     }
 
-    public PaymentMethod create(PaymentOption method) {
-        return switch (method) {
+    public PaymentMethod create(PaymentOption option) {
+        return switch (option) {
             case WALLET -> new WalletPayment(walletRepository, userId);
             case CASH -> new CashOnDeliveryPayment();
             default -> new CreditCardPayment();
