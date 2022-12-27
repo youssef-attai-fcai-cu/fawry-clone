@@ -3,7 +3,7 @@ package eg.edu.cu.fcai.swe.fawry.refund.repository;
 
 import eg.edu.cu.fcai.swe.fawry.common.repository.RefundRepository;
 import eg.edu.cu.fcai.swe.fawry.refund.model.RefundRequest;
-import eg.edu.cu.fcai.swe.fawry.refund.model.RefundStatus;
+import eg.edu.cu.fcai.swe.fawry.refund.RefundStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
