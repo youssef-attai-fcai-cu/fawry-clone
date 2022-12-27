@@ -27,10 +27,7 @@ public abstract class AuthController {
         Validator.assertFieldExists("email", form.email());
         Validator.assertFieldExists("password", form.password());
 
-        boolean userExists = userRepository.getUserByEmail(form.email()) != null ||
-                userRepository.getAdminByEmail(form.email()) != null ||
-                userRepository.getUserByUsername(form.username()) != null ||
-                userRepository.getAdminByUsername(form.username()) != null;
+        boolean userExists = userRepository.userExists(form.email(), form.username());
 
         if (userExists) throw new UserAlreadyExistsException();
 
