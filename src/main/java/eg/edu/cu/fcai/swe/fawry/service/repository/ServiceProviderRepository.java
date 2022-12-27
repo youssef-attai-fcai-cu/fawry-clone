@@ -17,7 +17,7 @@ public class ServiceProviderRepository {
     );
 
     public ServiceProvider getById(String providerId) {
-        return serviceProviders.stream().filter(serviceProvider -> serviceProvider.getId().equals(providerId)).findFirst().orElse(null);
+        return serviceProviders.stream().filter(serviceProvider -> serviceProvider.getProviderId().equals(providerId)).findFirst().orElse(null);
     }
 
     public List<ServiceProvider> findByName(String query) {
