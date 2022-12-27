@@ -79,4 +79,12 @@ public class InMemoryUserRepository implements UserRepository {
     public User getAdminByToken(String token) {
         return admins.stream().filter(admin -> admin.token().equals(token)).findFirst().orElse(null);
     }
+
+    @Override
+    public boolean userExists(String email, String username) {
+        return getUserByEmail(email) != null ||
+                getAdminByEmail(email) != null ||
+                getUserByUsername(username) != null ||
+                getAdminByUsername(username) != null;
+    }
 }
