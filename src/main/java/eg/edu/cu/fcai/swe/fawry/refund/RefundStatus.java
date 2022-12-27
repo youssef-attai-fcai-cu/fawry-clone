@@ -1,4 +1,4 @@
-package eg.edu.cu.fcai.swe.fawry.refund.model;
+package eg.edu.cu.fcai.swe.fawry.refund;
 
 public enum RefundStatus {
     Pending,
