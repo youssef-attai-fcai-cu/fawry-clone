@@ -23,4 +23,6 @@ public interface UserRepository {
     User getUserByToken(String token);
 
     User getAdminByToken(String token);
+
+    boolean userExists(String email, String username);
 }
