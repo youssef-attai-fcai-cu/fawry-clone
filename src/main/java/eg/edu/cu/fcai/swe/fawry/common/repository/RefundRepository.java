@@ -1,7 +1,7 @@
 package eg.edu.cu.fcai.swe.fawry.common.repository;
 
 import eg.edu.cu.fcai.swe.fawry.refund.model.RefundRequest;
-import eg.edu.cu.fcai.swe.fawry.refund.model.RefundStatus;
+import eg.edu.cu.fcai.swe.fawry.refund.RefundStatus;
 
 import java.util.List;
 
