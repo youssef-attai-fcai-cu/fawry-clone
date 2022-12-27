@@ -39,15 +39,15 @@ public class WalletController {
     }
 
     @PostMapping
-    public Response addFunds(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody AddFundsRequestBody form) {
+    public Response addFunds(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody AddFundsRequestBody body) {
         User user = Validator.validateUserToken(userRepository, token);
 
-        Validator.assertFieldExists("amount", form.amount());
-        Validator.assertNumberWithinRange("amount", form.amount(), 0.0f, Float.MAX_VALUE);
+        Validator.assertFieldExists("amount", body.amount());
+        Validator.assertNumberWithinRange("amount", body.amount(), 0.0f, Float.MAX_VALUE);
 
-        float newBalance = walletRepository.updateUserBalance(user.userId(), form.amount());
+        float newBalance = walletRepository.updateUserBalance(user.userId(), body.amount());
 
-        transactionRepository.create(user.userId(), form.amount(), "Add funds to wallet");
-        return new Response("Added $" + form.amount() + " to your wallet. Your balance is now: $" + newBalance);
+        transactionRepository.create(user.userId(), body.amount(), "Add funds to wallet");
+        return new Response("Added $" + body.amount() + " to your wallet. Your balance is now: $" + newBalance);
     }
 }

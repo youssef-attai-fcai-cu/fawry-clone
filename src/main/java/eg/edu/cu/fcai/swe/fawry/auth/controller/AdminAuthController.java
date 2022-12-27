@@ -21,22 +21,22 @@ public class AdminAuthController extends AuthController {
     }
 
     @Override
-    User getUser(UserSignInRequestBody form) {
-        return userRepository.getAdminByEmailAndPassword(form.email(), form.password());
+    User getUser(UserSignInRequestBody body) {
+        return userRepository.getAdminByEmailAndPassword(body.email(), body.password());
     }
 
     @Override
-    User createUser(UserSignUpRequestBody form) {
-        return userRepository.createAdmin(form.username(), form.email(), form.password());
+    User createUser(UserSignUpRequestBody body) {
+        return userRepository.createAdmin(body.username(), body.email(), body.password());
     }
 
     @PostMapping("/signup")
-    public SignUpResponse adminSignUp(@RequestBody UserSignUpRequestBody form) {
-        return signUp(form);
+    public SignUpResponse adminSignUp(@RequestBody UserSignUpRequestBody body) {
+        return signUp(body);
     }
 
     @PostMapping("/signin")
-    public SignInResponse adminSignIn(@RequestBody UserSignInRequestBody form) {
-        return signIn(form);
+    public SignInResponse adminSignIn(@RequestBody UserSignInRequestBody body) {
+        return signIn(body);
     }
 }

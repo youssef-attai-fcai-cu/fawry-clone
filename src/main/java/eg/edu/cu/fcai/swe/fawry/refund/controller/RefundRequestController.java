@@ -46,20 +46,20 @@ public class RefundRequestController {
     }
 
     @PostMapping
-    public RefundRequest createRefundRequest(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody RefundRequestRequestBody form) {
+    public RefundRequest createRefundRequest(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody RefundRequestRequestBody body) {
         User user = Validator.validateUserToken(userRepository, token);
 
-        Validator.assertFieldExists("transactionId", form.transactionId());
-        Transaction transaction = transactionRepository.getById(form.transactionId());
+        Validator.assertFieldExists("transactionId", body.transactionId());
+        Transaction transaction = transactionRepository.getById(body.transactionId());
 
         if (Objects.isNull(transaction))
-            throw new ResourceNotFound("Transaction", form.transactionId());
+            throw new ResourceNotFound("Transaction", body.transactionId());
 
         // Make sure the transaction belongs to the signed-in user
         if (!transaction.userId().equals(user.userId()))
-            throw new ResourceNotFound("Transaction", form.transactionId());
+            throw new ResourceNotFound("Transaction", body.transactionId());
 
-        RefundRequest newRefundRequest = refundRepository.create(form.transactionId());
+        RefundRequest newRefundRequest = refundRepository.create(body.transactionId());
 
         if (Objects.isNull(newRefundRequest))
             throw new RefundAlreadyRequested(transaction.transactionId());
