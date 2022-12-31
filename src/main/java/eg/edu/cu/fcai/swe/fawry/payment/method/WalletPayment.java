@@ -1,6 +1,6 @@
 package eg.edu.cu.fcai.swe.fawry.payment.method;
 
-import eg.edu.cu.fcai.swe.fawry.payment.exception.InsufficientWalletBalance;
+import eg.edu.cu.fcai.swe.fawry.wallet.exception.InsufficientWalletBalance;
 import eg.edu.cu.fcai.swe.fawry.common.repository.WalletRepository;
 
 public class WalletPayment implements PaymentMethod {
