@@ -14,14 +14,14 @@ public class Validator {
     public static User validateUserToken(UserRepository userRepository, String token) {
         if (DEBUG_MODE) return userRepository.getUserByToken("dummyuser");
         User user = userRepository.getUserByToken(extractToken(token));
-        if (Objects.isNull(user)) throw new InvalidToken();
+        if (Objects.isNull(user)) throw new InvalidToken("user");
         return user;
     }
 
     public static User validateAdminToken(UserRepository userRepository, String token) {
         if (DEBUG_MODE) return userRepository.getAdminByToken("dummyadmin");
         User admin = userRepository.getAdminByToken(extractToken(token));
-        if (Objects.isNull(admin)) throw new InvalidToken();
+        if (Objects.isNull(admin)) throw new InvalidToken("admin");
         return admin;
     }
 
