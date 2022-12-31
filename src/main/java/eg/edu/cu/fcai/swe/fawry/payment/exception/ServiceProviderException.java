@@ -1,7 +1,7 @@
 package eg.edu.cu.fcai.swe.fawry.payment.exception;
 
 import eg.edu.cu.fcai.swe.fawry.common.exception.APIException;
-import eg.edu.cu.fcai.swe.fawry.service.ServiceProvider;
+import eg.edu.cu.fcai.swe.fawry.provider.ServiceProvider;
 import org.springframework.http.HttpStatus;
 
 public class ServiceProviderException extends APIException {
