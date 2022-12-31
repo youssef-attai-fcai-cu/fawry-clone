@@ -1,7 +1,6 @@
 # Fawry Clone
 
-This project is similar to the Fawry system.
-This system should be used by users to pay
+This project is a clone to the Fawry system, used to pay
 for different services.
 
 There are two types of users who can use this system:
