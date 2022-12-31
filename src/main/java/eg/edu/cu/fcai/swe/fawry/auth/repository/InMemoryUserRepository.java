@@ -13,6 +13,15 @@ public class InMemoryUserRepository implements UserRepository {
     private final List<User> users = new ArrayList<>();
     private final List<User> admins = new ArrayList<>();
 
+    public InMemoryUserRepository() {
+        users.add(
+                new User("dummyuser", "dummyuser", "dummyuser@dummy.com", "dummy", "dummyuser")
+        );
+        admins.add(
+                new User("dummyadmin", "dummyadmin", "dummyadmin@dummy.com", "dummy", "dummyadmin")
+        );
+    }
+
     // Adding new users in List
     @Override
     public User createUser(String username, String email, String password) {

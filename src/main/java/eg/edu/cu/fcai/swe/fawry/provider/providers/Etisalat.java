@@ -1,7 +1,7 @@
-package eg.edu.cu.fcai.swe.fawry.service.providers;
+package eg.edu.cu.fcai.swe.fawry.provider.providers;
 
 import eg.edu.cu.fcai.swe.fawry.common.Validator;
-import eg.edu.cu.fcai.swe.fawry.service.ServiceProvider;
+import eg.edu.cu.fcai.swe.fawry.provider.ServiceProvider;
 
 import java.util.Map;
 

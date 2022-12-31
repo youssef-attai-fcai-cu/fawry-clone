@@ -1,4 +1,4 @@
-package eg.edu.cu.fcai.swe.fawry.payment.exception;
+package eg.edu.cu.fcai.swe.fawry.wallet.exception;
 
 import eg.edu.cu.fcai.swe.fawry.common.exception.APIException;
 import org.springframework.http.HttpStatus;

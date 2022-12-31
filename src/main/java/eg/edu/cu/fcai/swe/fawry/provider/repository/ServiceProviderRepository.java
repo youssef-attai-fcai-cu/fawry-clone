@@ -1,9 +1,9 @@
-package eg.edu.cu.fcai.swe.fawry.service.repository;
+package eg.edu.cu.fcai.swe.fawry.provider.repository;
 
-import eg.edu.cu.fcai.swe.fawry.service.providers.Etisalat;
-import eg.edu.cu.fcai.swe.fawry.service.providers.Vodafone;
-import eg.edu.cu.fcai.swe.fawry.service.providers.WE;
-import eg.edu.cu.fcai.swe.fawry.service.ServiceProvider;
+import eg.edu.cu.fcai.swe.fawry.provider.providers.Etisalat;
+import eg.edu.cu.fcai.swe.fawry.provider.providers.Vodafone;
+import eg.edu.cu.fcai.swe.fawry.provider.providers.WE;
+import eg.edu.cu.fcai.swe.fawry.provider.ServiceProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
