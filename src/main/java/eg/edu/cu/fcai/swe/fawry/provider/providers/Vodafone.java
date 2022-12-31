@@ -1,21 +1,22 @@
-package eg.edu.cu.fcai.swe.fawry.service.providers;
+package eg.edu.cu.fcai.swe.fawry.provider.providers;
 
 import eg.edu.cu.fcai.swe.fawry.common.Validator;
-import eg.edu.cu.fcai.swe.fawry.service.ServiceProvider;
+import eg.edu.cu.fcai.swe.fawry.provider.ServiceProvider;
 
 import java.util.Map;
 
-public class WE extends ServiceProvider {
-    public WE(String id, String name) {
+public class Vodafone extends ServiceProvider {
+    public Vodafone(String id, String name) {
         super(id, name);
     }
 
     @Override
     public boolean handle(Map<String, Object> paymentForm) {
         Validator.assertFieldExists("mobile", paymentForm.get("mobile"));
+        Validator.assertFieldExists("zip", paymentForm.get("zip"));
         Validator.assertFieldExists("amount", paymentForm.get("billAmount"));
 
-        // Use "mobile" and "amount" with WE's API
+        // Use "mobile", "zip" and "amount" with Vodafone's API
 
         return true;
     }

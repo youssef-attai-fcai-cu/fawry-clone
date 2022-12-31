@@ -1,7 +1,7 @@
-package eg.edu.cu.fcai.swe.fawry.service.controller;
+package eg.edu.cu.fcai.swe.fawry.provider.controller;
 
-import eg.edu.cu.fcai.swe.fawry.service.ServiceProvider;
-import eg.edu.cu.fcai.swe.fawry.service.repository.ServiceProviderRepository;
+import eg.edu.cu.fcai.swe.fawry.provider.ServiceProvider;
+import eg.edu.cu.fcai.swe.fawry.provider.repository.ServiceProviderRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

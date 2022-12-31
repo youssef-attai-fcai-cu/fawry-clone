@@ -1,4 +1,4 @@
-package eg.edu.cu.fcai.swe.fawry.service;
+package eg.edu.cu.fcai.swe.fawry.provider;
 
 import java.util.Map;
 
