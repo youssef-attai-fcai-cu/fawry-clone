@@ -11,6 +11,12 @@ import java.util.List;
 public class InMemoryWalletRepository implements WalletRepository {
     List<Wallet> wallets = new ArrayList<>();
 
+    public InMemoryWalletRepository() {
+        wallets.add(
+                new Wallet("dummyuser", 0.0f)
+        );
+    }
+
     @Override
     public Wallet createWallet(String userId) {
         Wallet newWallet = new Wallet(userId, 0.0f);
