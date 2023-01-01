@@ -77,12 +77,14 @@ private static final boolean DEBUG_MODE = false;
 
 3. Change the value of ```DEBUG_MODE``` to ```true```.
 
+Now, you should be able to access all endpoints without the need
+to create user or admin accounts.
+
+****
+
 - The following endpoints are protected,
   which means you need to be an authenticated
   user or admin to access them.
-
-Now, you should be able to access all endpoints without the need
-to create user or admin accounts.
 
 If ```DEBUG_MODE``` is set to ```false``` you will
 need to be an authenticated admin to access the following
