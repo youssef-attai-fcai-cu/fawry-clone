@@ -54,7 +54,7 @@ public class DiscountController {
         Validator.validateAdminToken(userRepository, token);
         Validator.assertFieldExists("percentage", form.percentage());
         if (Objects.isNull(serviceProviderRepository.getById(providerId)))
-            throw new ResourceNotFound("service provider", providerId);
+            throw new ResourceNotFound("Service provider", providerId);
         discountRepository.addSpecific(providerId, form.percentage());
         return new Response(form.percentage() + "% discount was added to providerId with ID: " + providerId);
     }
