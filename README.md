@@ -105,10 +105,15 @@ and the input validation class ```Validator```.
 
 #### Initial service providers
 
-- Initially, there are 3 service providers:
+Initially, there are 3 service providers:
     - WE
     - Vodafone
     - Etisalat
+
+For every service, no matter it's type (e.g. donation, landline, etc.)
+there will be a concrete 
+class that _extends_ the ```ServiceProvider``` abstract class
+and declares all the inputs it needs to provide its services.
 
 #### Adding a new service provider
 
