@@ -61,6 +61,14 @@ to the service provider's API.
   that you will have to put in the **Authorization** header of requests to
   protected endpoints.
 
+- The value of the Authorization header should follow this format:
+
+```
+Bearer <TOKEN>
+```
+
+where ```<TOKEN>``` is the actual token string returned from the sign up/sign in endpoint.
+
 - If you want to bypass token validation, there is
   a **dummy user account** and a **dummy admin account** created
   initially that you can use by turning on _**debug mode**_.
