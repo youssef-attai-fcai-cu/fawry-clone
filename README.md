@@ -160,9 +160,9 @@ where ```<TOKEN>``` is the actual token string returned from the sign-up/in endp
 
 #### Bypassing authentication to facilitate testing
 
-- If you want to bypass token validation, there is
-  a **dummy user account** and a **dummy admin account** created
-  initially that you can use by turning on _**debug mode**_.
+If you want to bypass token validation, there is
+a **dummy user account** and a **dummy admin account** created
+initially that you can use by turning on _**debug mode**_.
 
 To turn on debug mode, follow these simple steps:
 
