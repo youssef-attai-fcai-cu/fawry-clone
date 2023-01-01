@@ -53,10 +53,12 @@ by following the simple steps below:
 method, put all checks on form fields in it, and the calls
 to the service provider's API.
 
+****
+
 - This system implements an **actual authentication
   system**, so when you create a user or admin account
   you will get a token in return (in the response body)
-  that you will have to put in the header of requests to
+  that you will have to put in the **Authorization** header of requests to
   protected endpoints.
 
 - If you want to bypass token validation, there is
