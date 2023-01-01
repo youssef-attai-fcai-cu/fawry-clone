@@ -143,14 +143,14 @@ the calls to the service provider's API.
 
 #### Authentication
 
-- This system implements an **actual authentication
-  system**, so when you create a user or admin account
-  you will get a token in return (in the response body)
-  that you will have to put in the **Authorization** header
-  of requests to protected endpoints.
+This system implements an **actual authentication
+system**, so when you create a user or admin account
+you will get a token in return (in the response body)
+that you will have to put in the **Authorization** header
+of requests to protected endpoints.
 
 
-- The value of the Authorization header should follow this format:
+The value of the Authorization header should follow this format:
 
 ```
 Bearer <TOKEN>
@@ -181,9 +181,9 @@ to create user or admin accounts.
 
 #### Protected endpoints
 
-- The following endpoints are protected,
-  which means you need to be an authenticated
-  user or admin to access them.
+The following endpoints are protected,
+which means you need to be an authenticated
+user or admin to access them.
 
 If the
 [previously mentioned](#bypassing-authentication-to-facilitate-testing)
