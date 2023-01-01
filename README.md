@@ -117,7 +117,7 @@ and declares all the inputs it needs to provide its services.
 
 #### Adding a new service provider
 
-A developer can add a new service provider easily
+A developer can easily add a new service provider
 by following the simple steps below:
 
 1. Go to the package ```eg.edu.cu.fcai.swe.fawry.provider.providers```.
