@@ -7,7 +7,7 @@
     - [Admin](#admin)
     - [Features](#features)
 - [Technical details](#technical-details)
-- [⚠️ Important Notes ⚠️](#important-notes)
+- [Important Notes](#important-notes)
     - [Initial service providers](#initial-service-providers)
     - [Adding a new service provider](#adding-a-new-service-provider)
     - [Authentication](#authentication)
