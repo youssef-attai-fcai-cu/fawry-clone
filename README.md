@@ -144,7 +144,7 @@ the calls to the service provider's API.
 #### Authentication
 
 This system implements an **actual authentication
-system**, so when you create a user or admin account
+system**, so when you create a user account or an admin account
 you will get a token in return (in the response body)
 that you will have to put in the **Authorization** header
 of requests to protected endpoints.
@@ -187,7 +187,7 @@ user or admin to access them.
 
 If the
 [previously mentioned](#bypassing-authentication-to-facilitate-testing)
-```DEBUG_MODE``` is set to ```false``` you will,
+```DEBUG_MODE``` is set to ```false```, you will
 need to be an authenticated admin to access the following
 endpoints:
 
