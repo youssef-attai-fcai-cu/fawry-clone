@@ -1,5 +1,9 @@
 # Fawry Clone
 
+##### Level 3 - Semester 1
+##### Course: Advanced Software Engineering
+###### Faculty of Computer and Artificial Intelligence
+
 ## Table of contents
 
 - [Project Overview](#project-overview)
