@@ -1,8 +1,7 @@
 # Fawry Clone
 
-##### Level 3 - Semester 1
 ##### Course: Advanced Software Engineering
-###### Faculty of Computer and Artificial Intelligence
+###### Faculty of Computer and Artificial Intelligence - Cairo University
 
 ## Table of contents
 
