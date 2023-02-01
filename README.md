@@ -20,21 +20,21 @@ This is a clone of [Fawry](https://www.fawry.com/), an e-payments and digital fi
 
 There are two types of users who can use this system:
 
-1. Normal users
-2. Admins
+1. Normal user
+2. Admin
 
 #### Normal user
 
 This user can pay for the services provided by the different
 service providers in the system. They have a wallet which they
 can use in payment, and they can issue refund requests
-for payment transactions they make.
+for the payment transactions they make.
 
 #### Admin
 
 This user can respond to refund requests made by normal users,
 they can add discounts to the available services, and see
-all transactions made by normal users.
+all recorded transactions.
 
 #### Features
 
