@@ -16,13 +16,12 @@
 
 ### Project overview
 
-This project is a clone of the Fawry system that allows users to pay
-for different services.
+This is a clone of [Fawry](https://www.fawry.com/), an e-payments and digital finance solution in Egypt.
 
 There are two types of users who can use this system:
 
-1. Normal user
-2. Admin
+1. Normal users
+2. Admins
 
 #### Normal user
 
